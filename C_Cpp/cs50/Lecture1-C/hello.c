@@ -2,7 +2,7 @@
 
 int main(void)
 {
-    const int NUM = 10;
+    // const int NUM = 10;
     int height;
     do
     {
