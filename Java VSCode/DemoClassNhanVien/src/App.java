@@ -5,7 +5,7 @@ public class App {
     public static void main(String[] args) {
         
         
-        NhanVien nv1 = new NhanVien("001", "Cuong Con", 200000, 2.3f);
+        NhanVien nv1 = new NhanVien("001", "Cuong", 200000, 2.3f);
         System.out.println("Thong tin nhan vien 1: " + nv1.toString());
         System.out.println("Thong tin nhan vien 1 sau khi duoc doi ten");
         nv1.setHoTen("Cuong Nguyen");
@@ -45,7 +45,7 @@ public class App {
             System.out.println("Nhap nhan vien #" + (i + 1));
             NhanVien nv = new NhanVien();
             nv.input();
-            ds[i] = new NhanVien(nv);
+            ds[i] = nv;
         }
         
         for (int i = 0; i < soNhanVien; i++) {
