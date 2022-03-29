@@ -82,22 +82,54 @@ WHERE HOADON.MAKH = KHACHHANG.MAKH
 GO
 -- 11.Lấy ra các thông tin gồm Mã hóa đơn, ngày lập hóa đơn, tên khách hàng, địa chỉ khách hàng
 -- và số điện thoại của những hóa đơn trong tháng 6/2010.
+SELECT MAHD, NGAY, TENKH, DIACHIKH, DT
+FROM dbo.HOADON, dbo.KHACHHANG
+WHERE HOADON.MAKH = KHACHHANG.MAKH
+	AND MONTH(NGAY) = 6
 -- 12.Lấy ra danh sách những khách hàng (tên khách hàng, địa chỉ, số điện thoại)
 -- đã mua hàng trong tháng 6/2010.
+SELECT TENKH, DIACHIKH, DT
+FROM dbo.HOADON, dbo.KHACHHANG
+WHERE HOADON.MAKH = KHACHHANG.MAKH
+	AND MONTH(NGAY) = 6
 -- 13.Lấy ra danh sách những khách hàng không mua hàng trong tháng 6/2010 gồm
 -- các thông tin tên khách hàng, địa chỉ, số điện thoại.
+SELECT TENKH, DIACHIKH, DT
+FROM dbo.HOADON, dbo.KHACHHANG
+WHERE HOADON.MAKH = KHACHHANG.MAKH
+	AND MONTH(NGAY) != 6
 -- 14.Lấy ra các chi tiết hóa đơn gồm
 -- các thông tin mã hóa đơn, mã vật tư, tên vật tư, đơn vị tính, giá bán, giá mua,
 -- số lượng, trị giá mua (giá mua * số lượng), trị giá bán (giá bán * số lượng).
+SELECT CTHD.MAHD, CTHD.MAVT, TENVT, DVT, GIABAN, GIAMUA, SL,
+	GIAMUA * SL AS TRIGIAMUA, GIABAN * SL AS TRIGIABAN
+FROM dbo.VATTU, dbo.HOADON, dbo.CTHD
+WHERE CTHD.MAHD = HOADON.MAHD AND CTHD.MAVT = VATTU.MAVT
 -- 15.Lấy ra các chi tiết hóa đơn gồm các thông tin mã hóa đơn,
 -- mã vật tư, tên vật tư, đơn vị tính, giá bán, giá mua,
 -- số lượng, trị giá mua (giá mua * số lượng),
 -- trị giá bán (giá bán * số lượng) mà có giá bán lớn hơn hoặc bằng giá mua.
+SELECT CTHD.MAHD, CTHD.MAVT, TENVT, DVT, GIABAN, GIAMUA, SL,
+	GIAMUA * SL AS TRIGIAMUA, GIABAN * SL AS TRIGIABAN
+FROM dbo.VATTU, dbo.HOADON, dbo.CTHD
+WHERE CTHD.MAHD = HOADON.MAHD AND CTHD.MAVT = VATTU.MAVT
+	AND GIABAN >= GIAMUA
 -- 16.Lấy ra các thông tin gồm mã hóa đơn, mã vật tư, tên vật tư, đơn vị tính, giá bán,
 -- giá mua, số lượng, trị giá mua (giá mua * số lượng),
 -- trị giá bán (giá bán * số lượng) và
 -- cột khuyến mãi với khuyến mãi 10% cho những mặt hàng bán trong một hóa đơn lớn hơn 100.
+SELECT CTHD.MAHD, CTHD.MAVT, TENVT, DVT, GIABAN, GIAMUA, SL,
+	GIAMUA * SL AS TRIGIAMUA, GIABAN * SL AS TRIGIABAN,
+	KHUYENMAI = CASE
+		WHEN SL > 100 THEN 0.1 -- 10%
+		ELSE NULL
+	END
+FROM dbo.VATTU, dbo.HOADON, dbo.CTHD
+WHERE CTHD.MAHD = HOADON.MAHD AND CTHD.MAVT = VATTU.MAVT
 -- 17.Tìm ra những mặt hàng chưa bán được.
+SELECT *
+FROM dbo.VATTU
+WHERE VATTU.MAVT NOT IN (SELECT MAVT FROM dbo.CTHD)
 -- 18.Tạo bảng tổng hợp gồm các thông tin: mã hóa đơn, ngày hóa đơn, tên khách hàng,
 -- địa chỉ, số điện thoại, tên vật tư, đơn vị tính, giá mua, giá bán,
 -- số lượng, trị giá mua, trị giá bán. 
