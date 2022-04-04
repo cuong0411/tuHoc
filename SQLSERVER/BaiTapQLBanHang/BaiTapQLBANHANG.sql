@@ -132,13 +132,32 @@ FROM dbo.VATTU
 WHERE VATTU.MAVT NOT IN (SELECT MAVT FROM dbo.CTHD)
 -- 18.Tạo bảng tổng hợp gồm các thông tin: mã hóa đơn, ngày hóa đơn, tên khách hàng,
 -- địa chỉ, số điện thoại, tên vật tư, đơn vị tính, giá mua, giá bán,
--- số lượng, trị giá mua, trị giá bán. 
+-- số lượng, trị giá mua, trị giá bán.
+CREATE VIEW BangTongHop
+AS
+	SELECT
+		HOADON.MAHD, NGAY, TENKH, DIACHIKH, DT, TENVT, DVT, GIAMUA, GIABAN,
+		SL, GIAMUA * SL AS TRIGIAMUA, GIABAN * SL AS TRIGIABAN
+	FROM dbo.HOADON, dbo.KHACHHANG, dbo.VATTU, dbo.CTHD
+	WHERE KHACHHANG.MAKH = HOADON.MAKH
+		AND CTHD.MAHD = HOADON.MAHD
+		AND CTHD.MAVT = VATTU.MAVT
+GO
+SELECT * FROM BangTongHop
 -- 19.Tạo bảng tổng hợp tháng 5/2010 gồm các thông tin: mã hóa đơn, ngày hóa đơn,
 -- tên khách hàng, địa chỉ, số điện thoại, tên vật tư, đơn vị tính, giá mua,
--- giá bán, số lượng, trị giá mua, trị giá bán. 
+-- giá bán, số lượng, trị giá mua, trị giá bán.
+SELECT *
+FROM BangTongHop
+WHERE MONTH(NGAY) = 5
+	AND YEAR(NGAY) = 2010
 -- 20.Tạo bảng tổng hợp quý 1 – 2010 gồm các thông tin:
 -- mã hóa đơn, ngày hóa đơn, tên khách hàng, địa chỉ, số điện thoại,
--- tên vật tư, đơn vị tính, giá mua, giá bán, số lượng, trị giá mua, trị giá bán. 
+-- tên vật tư, đơn vị tính, giá mua, giá bán, số lượng, trị giá mua, trị giá bán.
+SELECT *
+FROM BangTongHop
+WHERE MONTH(NGAY) IN (1, 2, 3)
+	AND YEAR(NGAY) = 2010
 -- 21.Lấy ra danh sách các hóa đơn gồm các thông tin: Số hóa đơn, ngày,
 -- tên khách hàng, địa chỉ khách hàng, tổng trị giá của hóa đơn.
 -- 22.Lấy ra hóa đơn có tổng trị giá lớn nhất gồm các thông tin:
