@@ -3,9 +3,9 @@
 
 int main()
 {
-    char masked_raider[] = "Alive";
-    char *jimy = masked_raider;
-    printf("Mask raider is %s, Jimi is %s", masked_raider, jimy);
+    int a[] = {1, 2, 3};
+    a[3] = 4;
+    printf("%d",a[3]);
     
     return 0;
 }
