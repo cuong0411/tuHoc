@@ -9,7 +9,9 @@ SELECT   ProductNumber, Category =
          WHEN 'S' THEN 'Other sale items'  
          ELSE 'Not for sale'  
       END,  
-   Name  
+   Name, ProductLine
 FROM Production.Product  
 ORDER BY ProductNumber;  
 GO
+
+SELECT TOP(1) * FROM Production.Product
