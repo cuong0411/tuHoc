@@ -38,23 +38,27 @@ AS
 GO
 EXEC dbo.Cau3 10
 -- 4.Lấy ra danh sách X mặt hàng có số lượng bán lớn nhất (X là tham số).
+DROP PROC Cau4
 CREATE PROC Cau4 @x INT
 AS
-    SELECT TOP(@x) VATTU.MAVT, TENVT, SL
+    SELECT  VATTU.MAVT, SUM(SL) AS [TONG SO LUONG]
     FROM dbo.VATTU, dbo.CTHD
     WHERE VATTU.MAVT = CTHD.MAVT
-    ORDER BY SL DESC
+    GROUP BY VATTU.MAVT
+    ORDER BY [TONG SO LUONG] DESC
 GO
-EXEC dbo.Cau4 8
+EXEC dbo.Cau4 4
 -- 5.Lấy ra danh sách X mặt hàng bán ra có lãi ít nhất (X là tham số).
+DROP PROC Cau5
 CREATE PROC Cau5 @x INT
 AS
-    SELECT TOP(@x) VATTU.MAVT, TENVT, (SL * (GIABAN - GIAMUA)) AS [LAI]
+    SELECT TOP(@x) VATTU.MAVT, SUM(SL * (GIABAN - GIAMUA)) AS [LAI]
     FROM dbo.VATTU, dbo.CTHD
     WHERE VATTU.MAVT = CTHD.MAVT
-    ORDER BY LAI ASC
+    GROUP BY VATTU.MAVT
+    ORDER BY [LAI] ASC
 GO
-EXEC dbo.Cau5 5
+EXEC dbo.Cau5 7
 -- 6.Lấy ra danh sách X đơn hàng có tổng trị giá lớn nhất (X là tham số).
 CREATE PROC Cau6 @x INT
 AS
