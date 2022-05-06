@@ -1,3 +1,5 @@
+USE QLBANHANG2;
+GO
 --tao cac function sau:
 -- 1.Viết hàm tính doanh thu của năm, với năm là tham số truyền vào.
 

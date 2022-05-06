@@ -1,8 +1,14 @@
---Using a SELECT statement with a simple CASE expression
-USE QLBANHANG2
+USE Demo
 go
 
-SELECT * FROM dbo.VATTU
+--function
+-- CREATE FUNCTION tinh_tong(@a INT, @b INT)
+-- RETURNS INT
+-- AS
+-- BEGIN
+--     RETURN @a + @b
+-- END
 
-INSERT INTO dbo.VATTU
-VALUES ('VT10', N'Thử nghiệm', N'Cái', 10000, 50)
+DECLARE @tong INT
+SET @tong = (SELECT tinh_tong(1, 2))
+SELECT tinh_tong(1, 2) AS tong
