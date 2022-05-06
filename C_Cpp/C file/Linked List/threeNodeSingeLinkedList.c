@@ -7,8 +7,6 @@ struct node
     struct node *link;
 };
 
-void count_of_nodes(struct node *head);
-
 int main()
 {
     // no need for typecasting, althought it is a good practice
@@ -38,24 +36,5 @@ int main()
 
     head->link->link = current;
 
-    // count the number of nodes
-    count_of_nodes(head);
-
     return 0;
-}
-void count_of_nodes(struct node *head)
-{
-    int count = 0;
-    if (head == NULL)
-    {
-        printf("Linked list is emptyed");
-    }
-    struct node *ptr = NULL;
-    ptr = head;
-    while (ptr != NULL)
-    {
-        count++;
-        ptr = ptr->link;
-    }
-    printf("%d", count);
 }
